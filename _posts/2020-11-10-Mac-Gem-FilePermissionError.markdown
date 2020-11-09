@@ -16,9 +16,8 @@ MacでRubyのパッケージマネジャーであるGemを利用して設置を�
     $ gem install bundler
     ERROR: While executing gem ... (Gem::FilePermissionError)
         You don't have write permissions for the /Library/Ruby/Gems/2.3.0 directory.
-{% endhighlight %}
+{% enhighlight %}
 結論から言うと、システムがRubyを利用している為、権限がなくGem設置ができなかったという事が分かりました。
-
 sudoを使ってroot権限で実行しても設置が可能だそうですが、セキュリティーの為オススメはしないという資料を見たので、今回はrbenvを利用してエラーを解決しました。
 
 ####　問題解決方法
