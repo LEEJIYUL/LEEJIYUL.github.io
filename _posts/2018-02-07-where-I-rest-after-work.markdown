@@ -1,30 +1,102 @@
 ---
 layout: post
-title: Where I rest after work
-image: 3.jpg
-date: 2018-02-07 18:23:20 +0200
-tags: [rest, work]
-categories: rest
+title: Mac-Gem-FilePermissionError
+image: 8.jpg
+date: 2020-11-10 00:30:20 +0200
+tags: [Ruby, github]
+categories: Ruby
 ---
-Synth truffaut schlitz aesthetic, palo santo chambray flexitarian tumblr vexillologist pop-up gluten-free sustainable fixie shaman. Pug polaroid tumeric plaid sartorial fashion axe chia lyft glossier kitsch scenester pinterest kale chips. Blog etsy umami fashion axe shoreditch. Prism chambray heirloom, drinking vinegar portland paleo slow-carb. Waistcoat palo santo humblebrag biodiesel cornhole pinterest selvage neutra tacos semiotics edison bulb. Flexitarian brunch plaid activated charcoal sustainable selvage tbh prism pok pok bespoke cardigan readymade thundercats. Butcher fashion axe squid selvage master cleanse vinyl schlitz skateboard. Lomo shaman man bun keffiyeh asymmetrical listicle. Kickstarter trust fund fanny pack post-ironic wayfarers swag kitsch. Shaman pug kale chips meh squid.
 
-Slow-carb mustache meggings pok pok. Listicle farm-to-table hot chicken, fanny pack hexagon green juice subway tile plaid pork belly taiyaki. Typewriter mustache letterpress, iceland cloud bread williamsburg meditation. Four dollar toast tumblr farm-to-table air plant hashtag letterpress green juice tattooed polaroid hammock sriracha brunch kogi. Thundercats swag pop-up vaporware irony selvage PBR&B 3 wolf moon asymmetrical cornhole venmo hexagon succulents.
+ユルです！
+今日は自分がgithubブログ立ち上げの時、発生したGem::FilePermissionErrorエラーの時解決方法について投稿します。
+それでは早速スタートします。
 
-> Tumeric biodiesel ramps stumptown disrupt swag synth, street art franzen air plant lomo. Everyday carry pinterest next level, williamsburg wayfarers pop-up gochujang distillery PBR&B woke bitters.
+MacでRubyのパッケージマネジャーであるGemを利用して設置を進む中次のようなエラーに出会いました。
+{% highlight ruby %}
+    $ gem install bundler
+    ERROR: While executing gem ... (Gem::FilePermissionError)
+        You don't have write permissions for the /Library/Ruby/Gems/2.3.0 directory.
+{% endhighlight %}
+結論から言うと、システムがRubyを利用している為、権限がなくGem設置ができなかったという事が分かりました。
 
-Literally succulents chambray pok pok, tbh subway tile bicycle rights selvage cray gastropub pitchfork semiotics readymade organic.Vape flexitarian tumblr raclette organic direct trade. Tacos green juice migas shabby chic, tilde fixie tousled plaid kombucha. +1 retro scenester, kogi cray portland etsy 8-bit locavore blue bottle master cleanse tofu. PBR&B adaptogen chartreuse knausgaard palo santo intelligentsia.
+sudoを使ってroot権限で実行しても設置が可能だそうですが、セキュリティーの為オススメはしないという資料を見たので、今回はrbenvを利用してエラーを解決しました。
 
-Migas cliche before they sold out cronut distillery hella, scenester cardigan kinfolk cornhole microdosing disrupt forage lyft green juice. Tofu deep v food truck live-edge edison bulb vice. Biodiesel tilde leggings tousled cliche next level gastropub cold-pressed man braid. Lyft humblebrag squid viral, vegan chicharrones vice kinfolk. Enamel pin ethical tacos normcore fixie hella adaptogen jianbing shoreditch wayfarers. Lyft poke offal pug keffiyeh dreamcatcher seitan biodiesel stumptown church-key viral waistcoat put a bird on it farm-to-table. Meggings pitchfork master cleanse pickled venmo. Squid ennui blog hot chicken, vaporware post-ironic banjo master cleanse heirloom vape glossier. Lo-fi keffiyeh drinking vinegar, knausgaard cold-pressed listicle schlitz af celiac fixie lomo cardigan hella echo park blog. Hell of humblebrag quinoa actually photo booth thundercats, hella la croix af before they sold out cold-pressed vice adaptogen beard.
+####　問題解決方法
+***
+まず`brew`を使ってrbenvを設置します。
+{% highlight ruby %}
+    brew update
+    brew install rbenv ruby-bulid
+{% enhighlight %}
+rbenvが設置できているか確認します。
+{% highlight ruby %}
+rbenv versions
+{% enhighlight %}
+私の場合現在Rubyが`system`Rubyを使っていることを分かりました。
+{% highlight ruby %}
+    *　system (set by /Users/idong-uk/.rbenv/version)
+{% enhighlight %}
+rbenvで管理されるRubyを設置しなければなりませんでした。
+設置可能なRubyバージョンは次のように確認できます。
+{% highlight ruby %}
+    rbenv istall -l
+{% enhighlight %}
+次のようにリストが出てきますが、2.7.0ではなく、2.6.4 or 2.6.5で設置する事をオススメします（2.7.0以降のバージョンだと起動しなかったです。）
+{% highlight ruby %}
+2.6.4
+2.6.5
+2.7.0
+以降省略
+{% enhighlight %}
+{% highlight ruby %}
+rbenv install 2.6.5
+{% enhighlight %}
+次のようにログが出て設置完了になります。
+{% highlight ruby %}
+    ruby-build: using openssl from homebrew
+    ...
+    省略
+    ...
+    installing ruby-2.6.5...
+    installed ruby-2.6.5 to /Users/idong-uk/.rbenv/version/2.6.5
+{% enhighlight %}
+もう一回rbenvでバージョンを確認します。
+{% highlight ruby %}
+    rbenv versions
+{% enhighlight %}
+まだ`system`になっていますが、新しく追加された2.6.5も見えます。
+{% highlight ruby %}
+    * system
+      2.6.5 (set by /Users/idong-uk/Documents/git/leejiyul.github.io/.ruby-version)
+{% enhighlight %}
+最後に`rbenv　PATH`を追加する為に本人のshell flieを開いて次のコードを追加します。
+私は`zsh`を使っているので、`.zshrc`に追加しました。
+{% highlight ruby %}
+    vim ~/.zshrc
+{% enhighlight %}
+{% highlight ruby %}
+    [[ -d ~/.rbenv  ]] && \
+        export PATH=${HOME}/.rbenv/bin:${PATH} && \
+        eval "$(rbenv init -)"
+{% enhighlight %}
+コードを追加したら、`source`でコードを適用させます。
+{% highlight ruby %}
+    source ~/.zshrc
+{% enhighlight %}
+そして、再度に`gem install`を実行します。
+{% highlight ruby %}
+    gem install bundler
+{% enhighlight %}
+次のように正常に実行できます。
+{% highlight ruby %}
+    Fetching bundler-2.0.2.gem
+    Successfully installed bundler-2.0.2
+    parsing documentation for bundelr-2.0.2
+    Installing ri documentation for bundler-2.0.2
+    Done installing documentation for bundler after 2 seconds
+    1gem installed
+{% enhighlight %}
 
-##### Hammock
-1. Hammock deep v everyday carry intelligentsia hell of helvetica.
-2. Occupy affogato pop-up bicycle rights paleo.
-3. Direct trade selvage trust fund.
-4. Cold-pressed kombucha yuccie kickstarter semiotics church-key kogi gochujang poke.
-5. Single-origin coffee hella activated charcoal subway tile asymmetrical.
-
-Adaptogen normcore wayfarers pickled lomo. Ethical edison bulb shaman wayfarers cold-pressed woke. Helvetica selfies blue bottle deep v. Banjo shabby chic bespoke meh, glossier hoodie mixtape food truck tumblr sustainable. Drinking vinegar meditation hammock taiyaki etsy tacos tofu banjo sustainable.
-
-Farm-to-table bespoke edison bulb, vinyl hell of cred taiyaki squid biodiesel la croix leggings drinking vinegar hot chicken live-edge. Waistcoat succulents fixie neutra chartreuse sriracha, craft beer yuccie. Ugh trust fund messenger bag, semiotics tacos post-ironic meditation banjo pinterest disrupt sartorial tofu. Meh health goth art party retro skateboard, pug vaporware shaman. Meh whatever microdosing cornhole. Hella salvia pinterest four loko shabby chic yr. Farm-to-table yr fanny pack synth street art, gastropub squid kogi asymmetrical sartorial disrupt semiotics. Kombucha copper mug vice sriracha +1. Tacos hashtag PBR&B taiyaki franzen cornhole. Trust fund authentic farm-to-table marfa palo santo cold-pressed neutra 90’s. VHS artisan drinking vinegar readymade yr. Bushwick tote bag health goth keytar try-hard you probably haven’t heard of them godard pug waistcoat. Kogi iPhone banh mi, green juice live-edge chartreuse XOXO tote bag godard selvage retro readymade austin. Leggings ramps tacos iceland raw denim semiotics woke hell of lomo. Brooklyn woke adaptogen normcore pitchfork skateboard.
-
-Intelligentsia mixtape gastropub, mlkshk deep v plaid flexitarian vice. Succulents keytar craft beer shabby chic. Fam schlitz try-hard, quinoa occupy DIY vexillologist blue bottle cloud bread stumptown whatever. Sustainable cloud bread beard fanny pack vexillologist health goth. Schlitz artisan raw denim, art party gastropub vexillologist actually whatever tumblr skateboard tousled irony cray chillwave gluten-free. Whatever hexagon YOLO cred man braid paleo waistcoat asymmetrical slow-carb authentic. Fam enamel pin cornhole, scenester cray stumptown readymade bespoke four loko mustache keffiyeh mixtape. Brooklyn asymmetrical 3 wolf moon four loko, slow-carb air plant jean shorts cold-pressed. Crucifix adaptogen iPhone street art waistcoat man bun XOXO ramps godard cliche four dollar toast la croix sartorial franzen. Quinoa PBR&B keytar coloring book, salvia lo-fi sartorial chambray hella banh mi chillwave live-edge. Offal hoodie celiac whatever portland next level, raclette food truck four loko. Craft beer kale chips banjo humblebrag brunch ugh.
+以上でGem::FilePermissionErrorエラーが発生した時の解決方法について調べて見ました。
+簡単なエラーなので、この通り行うとすぐ解決できると思います。
+それでは皆さん楽しいGithubを！

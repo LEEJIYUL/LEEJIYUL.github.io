@@ -4,7 +4,7 @@ title: Mac-Gem-FilePermissionError
 image: 8.jpg
 date: 2020-11-10 00:30:20 +0200
 tags: [Ruby, github]
-categories: guide
+categories: Ruby
 ---
 
 ユルです！
