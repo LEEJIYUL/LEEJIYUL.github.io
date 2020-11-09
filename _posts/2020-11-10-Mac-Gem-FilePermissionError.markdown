@@ -7,7 +7,7 @@ tags: [Ruby, github]
 categories: Ruby
 ---
 
-ユルです！
+ユルです
 今日は自分がgithubブログ立ち上げの時、発生したGem::FilePermissionErrorエラーの時解決方法について投稿します。
 それでは早速スタートします。
 
@@ -98,4 +98,4 @@ rbenv install 2.6.5
 
 以上でGem::FilePermissionErrorエラーが発生した時の解決方法について調べて見ました。
 簡単なエラーなので、この通り行うとすぐ解決できると思います。
-それでは皆さん楽しいGithubを！
+それでは皆さん楽しいGithubを
