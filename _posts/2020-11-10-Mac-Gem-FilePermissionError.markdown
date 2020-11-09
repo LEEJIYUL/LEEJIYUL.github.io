@@ -16,7 +16,7 @@ MacでRubyのパッケージマネジャーであるGemを利用して設置を�
     $ gem install bundler
     ERROR: While executing gem ... (Gem::FilePermissionError)
         You don't have write permissions for the /Library/Ruby/Gems/2.3.0 directory.
-{% enhighlight %}
+{% endhighlight %}
 結論から言うと、システムがRubyを利用している為、権限がなくGem設置ができなかったという事が分かりました。
 sudoを使ってroot権限で実行しても設置が可能だそうですが、セキュリティーの為オススメはしないという資料を見たので、今回はrbenvを利用してエラーを解決しました。
 
@@ -26,30 +26,30 @@ sudoを使ってroot権限で実行しても設置が可能だそうですが、
 {% highlight ruby %}
     brew update
     brew install rbenv ruby-bulid
-{% enhighlight %}
+{% endhighlight %}
 rbenvが設置できているか確認します。
 {% highlight ruby %}
 rbenv versions
-{% enhighlight %}
+{% endhighlight %}
 私の場合現在Rubyが`system`Rubyを使っていることを分かりました。
 {% highlight ruby %}
     *　system (set by /Users/idong-uk/.rbenv/version)
-{% enhighlight %}
+{% endhighlight %}
 rbenvで管理されるRubyを設置しなければなりませんでした。
 設置可能なRubyバージョンは次のように確認できます。
 {% highlight ruby %}
     rbenv istall -l
-{% enhighlight %}
+{% endhighlight %}
 次のようにリストが出てきますが、2.7.0ではなく、2.6.4 or 2.6.5で設置する事をオススメします（2.7.0以降のバージョンだと起動しなかったです。）
 {% highlight ruby %}
 2.6.4
 2.6.5
 2.7.0
 以降省略
-{% enhighlight %}
+{% endhighlight %}
 {% highlight ruby %}
 rbenv install 2.6.5
-{% enhighlight %}
+{% endhighlight %}
 次のようにログが出て設置完了になります。
 {% highlight ruby %}
     ruby-build: using openssl from homebrew
@@ -58,34 +58,34 @@ rbenv install 2.6.5
     ...
     installing ruby-2.6.5...
     installed ruby-2.6.5 to /Users/idong-uk/.rbenv/version/2.6.5
-{% enhighlight %}
+{% endhighlight %}
 もう一回rbenvでバージョンを確認します。
 {% highlight ruby %}
     rbenv versions
-{% enhighlight %}
+{% endhighlight %}
 まだ`system`になっていますが、新しく追加された2.6.5も見えます。
 {% highlight ruby %}
     * system
       2.6.5 (set by /Users/idong-uk/Documents/git/leejiyul.github.io/.ruby-version)
-{% enhighlight %}
+{% endhighlight %}
 最後に`rbenv　PATH`を追加する為に本人のshell flieを開いて次のコードを追加します。
 私は`zsh`を使っているので、`.zshrc`に追加しました。
 {% highlight ruby %}
     vim ~/.zshrc
-{% enhighlight %}
+{% endhighlight %}
 {% highlight ruby %}
     [[ -d ~/.rbenv  ]] && \
         export PATH=${HOME}/.rbenv/bin:${PATH} && \
         eval "$(rbenv init -)"
-{% enhighlight %}
+{% endhighlight %}
 コードを追加したら、`source`でコードを適用させます。
 {% highlight ruby %}
     source ~/.zshrc
-{% enhighlight %}
+{% endhighlight %}
 そして、再度に`gem install`を実行します。
 {% highlight ruby %}
     gem install bundler
-{% enhighlight %}
+{% endhighlight %}
 次のように正常に実行できます。
 {% highlight ruby %}
     Fetching bundler-2.0.2.gem
@@ -94,7 +94,7 @@ rbenv install 2.6.5
     Installing ri documentation for bundler-2.0.2
     Done installing documentation for bundler after 2 seconds
     1gem installed
-{% enhighlight %}
+{% endhighlight %}
 
 以上でGem::FilePermissionErrorエラーが発生した時の解決方法について調べて見ました。
 簡単なエラーなので、この通り行うとすぐ解決できると思います。
