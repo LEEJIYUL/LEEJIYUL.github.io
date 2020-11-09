@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Style Guide
+title: Mac-Gem-FilePermissionError
 image: 8.jpg
-date: 2018-03-02 13:35:20 +0200
+date: 2020-11-10 00:30:20 +0200
 tags: [Ruby, github]
 categories: guide
 ---
