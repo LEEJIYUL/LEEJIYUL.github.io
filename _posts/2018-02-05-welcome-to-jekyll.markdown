@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "はじめまして、ユルです！"
-date: 2020-11-99 23:15:18 +0200
+date: 2020-11-99 20:15:18 +0200
 image: 12.jpg
 tags: [jekyll, docs]
 categories: jekyll
