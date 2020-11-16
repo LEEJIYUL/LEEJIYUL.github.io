@@ -1,5 +1,5 @@
 title: Yullab
-description: This is Yul sutdy lab
+description: This is Yul lab
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://leejiyul.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
@@ -9,7 +9,7 @@ author-image:   1.jpg
 author-job:     Developer
 author-email:   jiyul147@gmail.com # Add your email for contant form.
 author-twitter: yu_ru_kor # Add your twitter account
-about-author:   I am a beignner developer focusing on back-end development. I will upload my progress here regulary.
+about-author:   I am working as beginner engineer in tokyo. here is my programing sutdy lab. i hope to share my study results with you guys.
 
 # Social settings
 social-twitter:   yu_ru_kor

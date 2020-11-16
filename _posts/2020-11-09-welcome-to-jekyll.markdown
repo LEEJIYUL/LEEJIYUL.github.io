@@ -3,8 +3,8 @@ layout: post
 title: "はじめまして、ユルです！"
 date: 2020-11-09 20:15:18 +0200
 image: 12.jpg
-tags: [jekyll, docs]
-categories: jekyll
+tags: small-talk
+categories: small-talk
 ---
 はじめまして、これから日本でエンジニアとして働くユルです！
 出身は`_Korea`です！
