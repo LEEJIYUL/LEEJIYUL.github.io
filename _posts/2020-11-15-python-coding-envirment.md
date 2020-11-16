@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Pythonを始める前に！Python開発環境セッティング（１）
-image: 6.png
+image: 6.jpg
 date: 2020-11-15 18:00:00 +0200
 tags: [Python, coding]
 categories: python
