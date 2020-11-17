@@ -2,7 +2,7 @@
 layout: post
 title: Python 基礎文法のまとめ(1)
 image: 7.jpg
-date: 2020-11-16 17:12:00 +0200
+date: 2020-11-17 17:12:00 +0200
 tags: [Python, coding]
 categories: python
 ---
